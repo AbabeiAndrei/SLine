@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace SimpleRDS.DataLayer.Entities
 {
@@ -13,11 +15,12 @@ namespace SimpleRDS.DataLayer.Entities
         Company = 1
     }
 
-    public class Client
+    public class Client : IHasId<int>
     {
+        [AutoIncrement]
         public int Id { get; set; }
 
-        public int FullName { get; set; }
+        public string FullName { get; set; }
 
         public string Email { get; set; }
 
@@ -33,12 +36,15 @@ namespace SimpleRDS.DataLayer.Entities
 
         public string Address { get; set; }
 
+        public string City { get; set; }
+
         public DateTime BirthDate { get; set; }
 
         public ClientType Type { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
+        [ForeignKey(typeof(User), OnDelete = "RESTRICT", OnUpdate = "RESTRICT")]
         public int CreatedBy { get; set; }
 
         public RowState RowState { get; set; }

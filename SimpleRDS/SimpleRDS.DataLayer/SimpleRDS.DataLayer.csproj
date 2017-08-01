@@ -64,8 +64,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\IContext.cs" />
     <Compile Include="Business\IPasswordHasher.cs" />
+    <Compile Include="Business\LinqEx.cs" />
     <Compile Include="Business\PasswordHasher.cs" />
+    <Compile Include="Business\QuantityGrouping.cs" />
+    <Compile Include="Controllers\AccountRepository.cs" />
+    <Compile Include="Controllers\ClientsRepository.cs" />
+    <Compile Include="Controllers\InvoiceRepository.cs" />
+    <Compile Include="Controllers\PlanRepository.cs" />
+    <Compile Include="Controllers\SettingsRepository.cs" />
+    <Compile Include="Controllers\SubscriptionRepository.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Invoice.cs" />
@@ -73,15 +82,14 @@
     <Compile Include="Entities\Setting.cs" />
     <Compile Include="Entities\Subscription.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Exceptions\ControllerNullException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

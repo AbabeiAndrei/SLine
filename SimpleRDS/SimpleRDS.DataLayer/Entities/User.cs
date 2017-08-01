@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ServiceStack.DataAnnotations;
+using ServiceStack.Model;
 
 namespace SimpleRDS.DataLayer.Entities
 {
@@ -19,8 +21,9 @@ namespace SimpleRDS.DataLayer.Entities
         Deleted = 1
     }
 
-    public class User
+    public class User : IHasId<int>
     {
+        [AutoIncrement]
         public int Id { get; set; }
 
         public string Username { get; set; }

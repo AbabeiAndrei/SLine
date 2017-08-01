@@ -1,4 +1,4 @@
-﻿namespace SimpleRDS.BaseTypes
+﻿namespace SimpleRDS.Forms
 {
     partial class BaseForm
     {

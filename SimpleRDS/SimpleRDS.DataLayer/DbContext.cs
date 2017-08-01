@@ -1,43 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceStack.OrmLite;
+using ServiceStack.OrmLite.Dapper;
 using ServiceStack.OrmLite.MySql;
+using SimpleRDS.DataLayer.Base;
 using SimpleRDS.DataLayer.Business;
 using SimpleRDS.DataLayer.Entities;
 
 namespace SimpleRDS.DataLayer
 {
-    public class DbContext
+    public class DbContext : IContext
     {
         private readonly OrmLiteConnectionFactory _dbContext;
+
+        public IEnumerable<Subscription> Subscriptions => GetAll<Subscription>();
+
+        public IDbConnection Connection => _dbContext.OpenDbConnection();
+        public IEnumerable<User> Users => GetAll<User>();
+        public IEnumerable<Client> Clients => GetAll<Client>();
+        public IEnumerable<Plan> Plans => GetAll<Plan>();
+        public IEnumerable<Setting> Settings => GetAll<Setting>();
 
         public DbContext(string connectionString)
         {
             _dbContext = new OrmLiteConnectionFactory(connectionString, new MySqlDialectProvider());
         }
 
-        public void ExecuteCodeFirstMigration()
+        public void UpdateDatabase()
         {
             using (var connection = _dbContext.OpenDbConnection())
             {
-                connection.CreateTableIfNotExists<Client>();
-                connection.CreateTableIfNotExists<Invoice>();
-                connection.CreateTableIfNotExists<Plan>();
-                connection.CreateTableIfNotExists<Setting>();
-                connection.CreateTableIfNotExists<Subscription>();
                 connection.CreateTableIfNotExists<User>();
+                connection.CreateTableIfNotExists<Plan>();
+                connection.CreateTableIfNotExists<Client>();
+                connection.CreateTableIfNotExists<Subscription>();
+                connection.CreateTableIfNotExists<Invoice>();
+                connection.CreateTableIfNotExists<Setting>();
             }
         }
 
-        public void SeedData(IPasswordHasher<User> hasher)
+        public async Task SeedData(IPasswordHasher<User> hasher)
         {
             using (var connection = _dbContext.OpenDbConnection())
             {
                 if(connection.Select<User>().Any())
                     return;
+
                 var user = new User
                 {
                     FullName = "Admin - System User",
@@ -51,13 +63,11 @@ namespace SimpleRDS.DataLayer
                                                         //todo change to more secure
                 user.Password = hasher.HashPassword(user, "password");
 
-                connection.Insert(user);
+                await connection.InsertAsync(user);
             }
         }
 
-        public IEnumerable<User> Users => GetAll<User>();
-
-        private IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>()
         {
             using (var connection = _dbContext.OpenDbConnection())
             {

@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SimpleRDS.Properties;
 
-namespace SimpleRDS.BaseTypes
+namespace SimpleRDS.Controls
 {
-    public partial class BaseForm : Form
+    public partial class AccuntsUserControl : BaseUserControl
     {
-        public override string Text => Settings.Default.ApplicationName;
-
-        public BaseForm()
+        public AccuntsUserControl()
         {
             InitializeComponent();
+        }
+
+        public void LoadUi()
+        {
+            //throw new NotImplementedException();
         }
     }
 }
