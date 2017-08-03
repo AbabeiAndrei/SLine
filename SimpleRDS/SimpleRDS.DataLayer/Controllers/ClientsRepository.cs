@@ -13,6 +13,8 @@ namespace SimpleRDS.DataLayer.Controllers
 {
     public class ClientsRepository
     {
+        private static Expression<Func<Client, bool>> _excludeDeletePredicate;
+
         private readonly IContext _context;
 
         public ClientsRepository(IContext context)
@@ -20,13 +22,19 @@ namespace SimpleRDS.DataLayer.Controllers
             _context = context;
         }
 
+        static ClientsRepository()
+        {
+            _excludeDeletePredicate = c => c.RowState != RowState.Deleted;
+        }
+
         public IEnumerable<string> GetAllClientCities()
         {
             using (var connection = _context.Connection)
             {
-                return connection.Select<Client>($"SELECT * FROM Client WHERE RowState = {(int)RowState.Created} GROUP BY City")
-                                 .Select(c => c.City)
-                                 .Distinct();
+                var query = connection.From<Client>()
+                                      .Where(_excludeDeletePredicate)
+                                      .Select(c => c.City);
+                return connection.ColumnDistinct<string>(query);
             }
         }
 
@@ -34,10 +42,67 @@ namespace SimpleRDS.DataLayer.Controllers
         {
             using (var connection = _context.Connection)
             {
-                if (predicate != null)
-                    return connection.Select(predicate.And(c => c.RowState != RowState.Deleted));
+                predicate = predicate?.And(_excludeDeletePredicate) ?? _excludeDeletePredicate;
 
-                return connection.Select<Client>(c => c.RowState != RowState.Deleted);
+                return connection.Select(predicate);
+            }
+        }
+
+        public IEnumerable<Client> GetAllClients(Expression<Func<Client, bool>> predicate, int page, int pageSize)
+        {
+            using (var connection = _context.Connection)
+            {
+                predicate = predicate?.And(_excludeDeletePredicate) ?? _excludeDeletePredicate; 
+
+                var query = connection.From<Client>()
+                                      .Where(predicate)
+                                      .Limit(page * pageSize, pageSize);
+
+                return connection.Select(query);
+            }
+        }
+
+        public long Count(Expression<Func<Client, bool>> predicate)
+        {
+            using (var connection = _context.Connection)
+            {
+                predicate = predicate?.And(_excludeDeletePredicate) ?? _excludeDeletePredicate;
+
+                return connection.Count(predicate);
+            }
+        }
+
+        public Client GetById(int clientId)
+        {
+            using (var connection = _context.Connection)
+            {
+                return connection.SingleById<Client>(clientId);
+            }
+        }
+
+        public void Add(Client client)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Insert(client);
+            }
+        }
+
+        public void Update(Client client)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Update(client);
+            }
+        }
+
+        public void Delete(int clientId)
+        {
+            using (var connection = _context.Connection)
+            {
+                var client = connection.SingleById<Client>(clientId);
+                client.RowState = RowState.Deleted;
+                connection.Update(client);
             }
         }
     }

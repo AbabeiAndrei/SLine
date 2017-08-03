@@ -24,9 +24,43 @@ namespace SimpleRDS.DataLayer.Controllers
             using (var connection = _context.Connection)
             {
                 if (predicate != null)
-                    return connection.Select(predicate.And(c => c.State != PlanState.Closed));
+                    return connection.Select(predicate.And(p => p.State != PlanState.Closed));
 
-                return connection.Select<Plan>(c => c.State != PlanState.Closed);
+                return connection.Select<Plan>(p => p.State != PlanState.Closed);
+            }
+        }
+
+        public Plan GetById(int planId)
+        {
+            using (var connection = _context.Connection)
+            {
+                return connection.SingleById<Plan>(planId);
+            }
+        }
+
+        public void Add(Plan plan)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Insert(plan);
+            }
+        }
+
+        public void Update(Plan plan)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Update(plan);
+            }
+        }
+
+        public void Delete(int planId)
+        {
+            using (var connection = _context.Connection)
+            {
+                var user = connection.SingleById<Plan>(planId);
+                user.State = PlanState.Closed;
+                connection.Update(user);
             }
         }
     }

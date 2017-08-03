@@ -112,6 +112,7 @@
             this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SLine - Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

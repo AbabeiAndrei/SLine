@@ -67,10 +67,18 @@ namespace SimpleRDS.Forms
 
         private void SetPagesVisibility()
         {
-            tpClients.Visible = AccountRepository.User.Access >= AccessLevel.Regular;
-            tpUsers.Visible = AccountRepository.User.Access >= AccessLevel.Manager;
-            tpPlans.Visible = AccountRepository.User.Access >= AccessLevel.Admin;
-            tpSettings.Visible = AccountRepository.User.Access >= AccessLevel.Admin;
+            if(AccountRepository.User.Access < AccessLevel.Regular)
+                tcMain.TabPages.Remove(tpClients);
+
+            if(AccountRepository.User.Access < AccessLevel.Manager)
+                tcMain.TabPages.Remove(tpUsers);
+
+
+            if (AccountRepository.User.Access < AccessLevel.Admin)
+            {
+                tcMain.TabPages.Remove(tpPlans);
+                tcMain.TabPages.Remove(tpSettings);
+            }
 
             tcMain.Visible = true;
         }

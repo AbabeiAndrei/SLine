@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autofac;
 using SimpleRDS.BaseTypes;
+using SimpleRDS.Controls.CrudControls;
 using SimpleRDS.DataLayer.Controllers;
+using SimpleRDS.DataLayer.Entities;
 using SimpleRDS.Forms;
 using SimpleRDS.Properties;
 
@@ -26,6 +29,60 @@ namespace SimpleRDS.Utils
             form.ShowDialog();
 
             return form;
+        }
+
+        public static DialogResult ShowQuestion(string question, string title = null, MessageBoxButtons buttons = MessageBoxButtons.YesNo, IWin32Window parent = null)
+        {
+            return MessageBox.Show(parent,
+                                   question,
+                                   title ?? Settings.Default.ApplicationName,
+                                   buttons,
+                                   MessageBoxIcon.Question);
+        }
+
+        public static void ShowEditUser(User user, Action<User> onSave, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
+        {
+            var control = new EditAccountControl
+            {
+                User = user,
+                OnConfirm = onSave
+            };
+
+            var title = user != null
+                            ? "Modifica utilizatorul " + user.FullName
+                            : "Adauga utilizator";
+
+            ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
+        }
+
+        public static void ShowEditClient(Client client, Action<Client> onSave, Action onCancel = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ShowEditPlan(Plan plan, Action<Plan> onSave, Action onCancel = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ShowControlInWindow(Control control, string title = null, Action<CancelEventArgs> onClose = null, IWin32Window paretForm = null)
+        {
+            var form = new BaseForm
+            {
+                Text = title ?? Settings.Default.ApplicationName,
+                Size = control.Size,
+                StartPosition = paretForm == null
+                                    ? FormStartPosition.CenterScreen
+                                    : FormStartPosition.CenterParent
+            };
+
+            control.Dock = DockStyle.Fill;
+
+            form.Controls.Add(control);
+
+            form.Closing += (sender, args) => onClose?.Invoke(args);
+
+            form.ShowDialog(paretForm);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace SimpleRDS.Forms
             this.tpClients = new System.Windows.Forms.TabPage();
             this.ucClients = new SimpleRDS.Controls.ClientsUserControl();
             this.tpUsers = new System.Windows.Forms.TabPage();
-            this.ucAcounts = new SimpleRDS.Controls.AccuntsUserControl();
+            this.ucAcounts = new SimpleRDS.Controls.AccountUserControl();
             this.tpPlans = new System.Windows.Forms.TabPage();
             this.ucPlans = new SimpleRDS.Controls.PlansUserControl();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -184,7 +184,7 @@ namespace SimpleRDS.Forms
         private System.Windows.Forms.TabPage tpPlans;
         private Controls.SettingsUserControl ucSettings;
         private Controls.ClientsUserControl ucClients;
-        private Controls.AccuntsUserControl ucAcounts;
+        private Controls.AccountUserControl ucAcounts;
         private Controls.PlansUserControl ucPlans;
     }
 }

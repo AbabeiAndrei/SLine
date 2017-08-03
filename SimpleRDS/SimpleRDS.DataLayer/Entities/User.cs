@@ -11,8 +11,8 @@ namespace SimpleRDS.DataLayer.Entities
     public enum AccessLevel : short
     {
         Regular = 0,
-        Manager,
-        Admin = 1
+        Manager = 1,
+        Admin = 2
     }
 
     public enum RowState : short

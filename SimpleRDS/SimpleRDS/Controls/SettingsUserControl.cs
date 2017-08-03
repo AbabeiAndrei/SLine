@@ -26,8 +26,7 @@ namespace SimpleRDS.Controls
 
         public void LoadUi()
         {
-            if (_settingsController == null)
-                _settingsController = Program.Resolver.Resolve<SettingsRepository>();
+            _settingsController = Program.Resolver.Resolve<SettingsRepository>();
 
             var invSeries = _settingsController.GetValue(Setting.Keys.INVOICE_SERIES);
             var invNumber = _settingsController.GetValue(Setting.Keys.INVOICE_START_NUMBER);

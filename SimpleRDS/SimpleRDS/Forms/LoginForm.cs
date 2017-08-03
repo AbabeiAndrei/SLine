@@ -12,8 +12,6 @@ namespace SimpleRDS.Forms
     {
         private readonly AccountRepository _accountController;
 
-        public override string Text => $"{Settings.Default.ApplicationName} - Login";
-
         public bool IsLoggedIn { get; protected set; }
 
         public LoginForm(AccountRepository accountController)

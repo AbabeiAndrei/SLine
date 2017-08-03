@@ -32,6 +32,8 @@ namespace SimpleRDS.DataLayer.Entities
         [ForeignKey(typeof(User), OnDelete = "RESTRICT", OnUpdate = "RESTRICT")]
         public int CreatedBy { get; set; }
 
+        public string Address { get; set; }
+
         public DateTime ActiveFrom { get; set; }
 
         public DateTime? SubscriptionEnd { get; set; }

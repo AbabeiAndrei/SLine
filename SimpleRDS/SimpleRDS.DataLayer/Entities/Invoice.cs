@@ -26,7 +26,7 @@ namespace SimpleRDS.DataLayer.Entities
         public int SubscriptionId { get; set; }
 
         //only manager
-        public bool IsStorno { get; set; }
+        public string StornoFor { get; set; }
 
         public string PaidWith { get; set; }
 

@@ -24,9 +24,9 @@ namespace SimpleRDS.DataLayer.Controllers
             using (var connection = _context.Connection)
             {
                 if (predicate != null)
-                    return connection.Select(predicate.And(c => c.State != SubscriptionState.Deleted));
+                    return connection.Select(predicate.And(s => s.State != SubscriptionState.Deleted));
 
-                return connection.Select<Subscription>(c => c.State != SubscriptionState.Deleted);
+                return connection.Select<Subscription>(s => s.State != SubscriptionState.Deleted);
             }
         }
     }

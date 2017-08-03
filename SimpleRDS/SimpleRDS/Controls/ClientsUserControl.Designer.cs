@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             this.pnlFilter = new System.Windows.Forms.Panel();
-            this.btnAdd = new System.Windows.Forms.Button();
+            this.lblOras = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
             this.cbCity = new System.Windows.Forms.ComboBox();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.pnlActions = new System.Windows.Forms.Panel();
-            this.flwPaging = new System.Windows.Forms.FlowLayoutPanel();
             this.btnEdit = new System.Windows.Forms.Button();
             this.lvClients = new System.Windows.Forms.ListView();
             this.chClient = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chAddress = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chSubscriptions = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chInvoices = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblOras = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.pnlFilter.SuspendLayout();
             this.pnlActions.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +49,6 @@
             // pnlFilter
             // 
             this.pnlFilter.Controls.Add(this.lblOras);
-            this.pnlFilter.Controls.Add(this.btnAdd);
             this.pnlFilter.Controls.Add(this.txtSearch);
             this.pnlFilter.Controls.Add(this.lblSearch);
             this.pnlFilter.Controls.Add(this.cbCity);
@@ -59,15 +58,14 @@
             this.pnlFilter.Size = new System.Drawing.Size(1027, 61);
             this.pnlFilter.TabIndex = 0;
             // 
-            // btnAdd
+            // lblOras
             // 
-            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(908, 8);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(116, 42);
-            this.btnAdd.TabIndex = 3;
-            this.btnAdd.Text = "Adauga";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            this.lblOras.AutoSize = true;
+            this.lblOras.Location = new System.Drawing.Point(6, 19);
+            this.lblOras.Name = "lblOras";
+            this.lblOras.Size = new System.Drawing.Size(43, 21);
+            this.lblOras.TabIndex = 4;
+            this.lblOras.Text = "Oras";
             // 
             // txtSearch
             // 
@@ -95,9 +93,21 @@
             this.cbCity.TabIndex = 0;
             this.cbCity.SelectedIndexChanged += new System.EventHandler(this.cbCity_SelectedIndexChanged);
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Location = new System.Drawing.Point(924, 6);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(100, 40);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "Adauga";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
             // pnlActions
             // 
-            this.pnlActions.Controls.Add(this.flwPaging);
+            this.pnlActions.Controls.Add(this.btnDelete);
+            this.pnlActions.Controls.Add(this.btnAdd);
             this.pnlActions.Controls.Add(this.btnEdit);
             this.pnlActions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlActions.Location = new System.Drawing.Point(0, 565);
@@ -105,23 +115,16 @@
             this.pnlActions.Size = new System.Drawing.Size(1027, 50);
             this.pnlActions.TabIndex = 1;
             // 
-            // flwPaging
-            // 
-            this.flwPaging.Dock = System.Windows.Forms.DockStyle.Left;
-            this.flwPaging.Location = new System.Drawing.Point(0, 0);
-            this.flwPaging.Name = "flwPaging";
-            this.flwPaging.Size = new System.Drawing.Size(349, 50);
-            this.flwPaging.TabIndex = 5;
-            // 
             // btnEdit
             // 
             this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(914, 6);
+            this.btnEdit.Location = new System.Drawing.Point(818, 6);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(110, 37);
+            this.btnEdit.Size = new System.Drawing.Size(100, 40);
             this.btnEdit.TabIndex = 4;
             this.btnEdit.Text = "Modifica";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // lvClients
             // 
@@ -162,14 +165,17 @@
             this.chInvoices.Text = "Facturi";
             this.chInvoices.Width = 150;
             // 
-            // lblOras
+            // btnDelete
             // 
-            this.lblOras.AutoSize = true;
-            this.lblOras.Location = new System.Drawing.Point(6, 19);
-            this.lblOras.Name = "lblOras";
-            this.lblOras.Size = new System.Drawing.Size(43, 21);
-            this.lblOras.TabIndex = 4;
-            this.lblOras.Text = "Oras";
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnDelete.Location = new System.Drawing.Point(3, 6);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(100, 40);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "Sterge";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // ClientsUserControl
             // 
@@ -201,7 +207,7 @@
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.FlowLayoutPanel flwPaging;
         private System.Windows.Forms.Label lblOras;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

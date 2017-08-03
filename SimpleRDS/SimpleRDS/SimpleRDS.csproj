@@ -67,11 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTypes\ILoginForm.cs" />
-    <Compile Include="Controls\AccuntsUserControl.cs">
+    <Compile Include="Controls\AccountUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\AccuntsUserControl.Designer.cs">
-      <DependentUpon>AccuntsUserControl.cs</DependentUpon>
+    <Compile Include="Controls\AccountUserControl.Designer.cs">
+      <DependentUpon>AccountUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\BaseUserControl.cs">
       <SubType>UserControl</SubType>
@@ -84,6 +84,24 @@
     </Compile>
     <Compile Include="Controls\ClientsUserControl.Designer.cs">
       <DependentUpon>ClientsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CrudControls\EditAccountControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CrudControls\EditAccountControl.Designer.cs">
+      <DependentUpon>EditAccountControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CrudControls\EditClientControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CrudControls\EditClientControl.Designer.cs">
+      <DependentUpon>EditClientControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CrudControls\InvoiceEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CrudControls\InvoiceEdit.Designer.cs">
+      <DependentUpon>InvoiceEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\PlansUserControl.cs">
       <SubType>UserControl</SubType>
@@ -117,12 +135,28 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Translator.cs" />
     <Compile Include="Utils\UIHelper.cs" />
+    <EmbeddedResource Include="Controls\AccountUserControl.resx">
+      <DependentUpon>AccountUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\BaseUserControl.resx">
       <DependentUpon>BaseUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ClientsUserControl.resx">
       <DependentUpon>ClientsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CrudControls\EditAccountControl.resx">
+      <DependentUpon>EditAccountControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CrudControls\EditClientControl.resx">
+      <DependentUpon>EditClientControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CrudControls\InvoiceEdit.resx">
+      <DependentUpon>InvoiceEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PlansUserControl.resx">
+      <DependentUpon>PlansUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SettingsUserControl.resx">
       <DependentUpon>SettingsUserControl.cs</DependentUpon>

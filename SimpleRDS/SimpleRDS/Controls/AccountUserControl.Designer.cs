@@ -1,6 +1,6 @@
 ﻿namespace SimpleRDS.Controls
 {
-    partial class PlansUserControl
+    partial class AccountUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,10 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lvPlans = new System.Windows.Forms.ListView();
-            this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPrice = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPlan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlFilter = new System.Windows.Forms.Panel();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lblSearch = new System.Windows.Forms.Label();
@@ -39,67 +35,27 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.chActivePeriod = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblFrom = new System.Windows.Forms.Label();
-            this.lblTo = new System.Windows.Forms.Label();
-            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.dtpTo = new System.Windows.Forms.DateTimePicker();
+            this.lvUsers = new System.Windows.Forms.ListView();
+            this.chMail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chFullName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chAccess = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlFilter.SuspendLayout();
             this.pnlActions.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lvPlans
-            // 
-            this.lvPlans.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chName,
-            this.chPrice,
-            this.chPlan,
-            this.chActivePeriod,
-            this.chState});
-            this.lvPlans.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvPlans.FullRowSelect = true;
-            this.lvPlans.GridLines = true;
-            this.lvPlans.Location = new System.Drawing.Point(0, 47);
-            this.lvPlans.MultiSelect = false;
-            this.lvPlans.Name = "lvPlans";
-            this.lvPlans.Size = new System.Drawing.Size(798, 400);
-            this.lvPlans.TabIndex = 5;
-            this.lvPlans.UseCompatibleStateImageBehavior = false;
-            this.lvPlans.View = System.Windows.Forms.View.Details;
-            // 
-            // chName
-            // 
-            this.chName.Text = "Nume";
-            this.chName.Width = 250;
-            // 
-            // chPrice
-            // 
-            this.chPrice.Text = "Pret";
-            this.chPrice.Width = 100;
-            // 
-            // chPlan
-            // 
-            this.chPlan.Text = "Plan tarifare";
-            this.chPlan.Width = 130;
-            // 
             // pnlFilter
             // 
-            this.pnlFilter.Controls.Add(this.dtpTo);
-            this.pnlFilter.Controls.Add(this.dtpFrom);
-            this.pnlFilter.Controls.Add(this.lblTo);
-            this.pnlFilter.Controls.Add(this.lblFrom);
             this.pnlFilter.Controls.Add(this.txtSearch);
             this.pnlFilter.Controls.Add(this.lblSearch);
             this.pnlFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlFilter.Location = new System.Drawing.Point(0, 0);
             this.pnlFilter.Name = "pnlFilter";
             this.pnlFilter.Size = new System.Drawing.Size(798, 47);
-            this.pnlFilter.TabIndex = 3;
+            this.pnlFilter.TabIndex = 0;
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(86, 9);
+            this.txtSearch.Location = new System.Drawing.Point(86, 10);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(209, 29);
             this.txtSearch.TabIndex = 1;
@@ -120,10 +76,10 @@
             this.pnlActions.Controls.Add(this.btnEdit);
             this.pnlActions.Controls.Add(this.btnAdd);
             this.pnlActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlActions.Location = new System.Drawing.Point(0, 447);
+            this.pnlActions.Location = new System.Drawing.Point(0, 377);
             this.pnlActions.Name = "pnlActions";
             this.pnlActions.Size = new System.Drawing.Size(798, 50);
-            this.pnlActions.TabIndex = 4;
+            this.pnlActions.TabIndex = 1;
             // 
             // btnDelete
             // 
@@ -159,65 +115,47 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // chActivePeriod
+            // lvUsers
             // 
-            this.chActivePeriod.Text = "Activ in perioada";
-            this.chActivePeriod.Width = 200;
+            this.lvUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chMail,
+            this.chFullName,
+            this.chAccess});
+            this.lvUsers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvUsers.FullRowSelect = true;
+            this.lvUsers.GridLines = true;
+            this.lvUsers.Location = new System.Drawing.Point(0, 47);
+            this.lvUsers.MultiSelect = false;
+            this.lvUsers.Name = "lvUsers";
+            this.lvUsers.Size = new System.Drawing.Size(798, 330);
+            this.lvUsers.TabIndex = 2;
+            this.lvUsers.UseCompatibleStateImageBehavior = false;
+            this.lvUsers.View = System.Windows.Forms.View.Details;
             // 
-            // chState
+            // chMail
             // 
-            this.chState.Text = "Stare";
-            this.chState.Width = 100;
+            this.chMail.Text = "Email";
+            this.chMail.Width = 250;
             // 
-            // lblFrom
+            // chFullName
             // 
-            this.lblFrom.AutoSize = true;
-            this.lblFrom.Location = new System.Drawing.Point(302, 13);
-            this.lblFrom.Name = "lblFrom";
-            this.lblFrom.Size = new System.Drawing.Size(81, 21);
-            this.lblFrom.TabIndex = 2;
-            this.lblFrom.Text = "Activ de la";
+            this.chFullName.Text = "Nume complet";
+            this.chFullName.Width = 250;
             // 
-            // lblTo
+            // chAccess
             // 
-            this.lblTo.AutoSize = true;
-            this.lblTo.Location = new System.Drawing.Point(563, 13);
-            this.lblTo.Name = "lblTo";
-            this.lblTo.Size = new System.Drawing.Size(59, 21);
-            this.lblTo.TabIndex = 3;
-            this.lblTo.Text = "Pana la";
+            this.chAccess.Text = "Acces";
+            this.chAccess.Width = 150;
             // 
-            // dtpFrom
-            // 
-            this.dtpFrom.Checked = false;
-            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFrom.Location = new System.Drawing.Point(390, 9);
-            this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.ShowCheckBox = true;
-            this.dtpFrom.Size = new System.Drawing.Size(169, 29);
-            this.dtpFrom.TabIndex = 4;
-            this.dtpFrom.ValueChanged += new System.EventHandler(this.dtpFrom_ValueChanged);
-            // 
-            // dtpTo
-            // 
-            this.dtpTo.Checked = false;
-            this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(626, 9);
-            this.dtpTo.Name = "dtpTo";
-            this.dtpTo.ShowCheckBox = true;
-            this.dtpTo.Size = new System.Drawing.Size(169, 29);
-            this.dtpTo.TabIndex = 5;
-            this.dtpTo.ValueChanged += new System.EventHandler(this.dtpTo_ValueChanged);
-            // 
-            // PlansUserControl
+            // AccuntsUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lvPlans);
-            this.Controls.Add(this.pnlFilter);
+            this.Controls.Add(this.lvUsers);
             this.Controls.Add(this.pnlActions);
-            this.Name = "PlansUserControl";
-            this.Size = new System.Drawing.Size(798, 497);
+            this.Controls.Add(this.pnlFilter);
+            this.Name = "AccuntsUserControl";
+            this.Size = new System.Drawing.Size(798, 427);
             this.pnlFilter.ResumeLayout(false);
             this.pnlFilter.PerformLayout();
             this.pnlActions.ResumeLayout(false);
@@ -227,22 +165,16 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView lvPlans;
-        private System.Windows.Forms.ColumnHeader chName;
-        private System.Windows.Forms.ColumnHeader chPrice;
-        private System.Windows.Forms.ColumnHeader chPlan;
         private System.Windows.Forms.Panel pnlFilter;
+        private System.Windows.Forms.Panel pnlActions;
+        private System.Windows.Forms.ListView lvUsers;
+        private System.Windows.Forms.ColumnHeader chMail;
+        private System.Windows.Forms.ColumnHeader chFullName;
+        private System.Windows.Forms.ColumnHeader chAccess;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.Panel pnlActions;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.ColumnHeader chActivePeriod;
-        private System.Windows.Forms.ColumnHeader chState;
-        private System.Windows.Forms.DateTimePicker dtpFrom;
-        private System.Windows.Forms.Label lblTo;
-        private System.Windows.Forms.Label lblFrom;
-        private System.Windows.Forms.DateTimePicker dtpTo;
     }
 }
