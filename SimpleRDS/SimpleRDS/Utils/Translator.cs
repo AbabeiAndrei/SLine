@@ -70,13 +70,13 @@ namespace SimpleRDS.Utils
             switch (state)
             {
                 case SubscriptionState.Created:
-                    return "Creata";
+                    return "Creat";
                 case SubscriptionState.Active:
-                    return "Actvia";
+                    return "Activ";
                 case SubscriptionState.Suspended:
-                    return "Suspendata";
+                    return "Suspendat";
                 case SubscriptionState.Deleted:
-                    return "Stearsa";
+                    return "Stears";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }

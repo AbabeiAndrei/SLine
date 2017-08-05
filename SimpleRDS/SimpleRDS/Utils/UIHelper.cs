@@ -55,14 +55,24 @@ namespace SimpleRDS.Utils
             ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
         }
 
-        public static void ShowEditClient(Client client, Action<Client> onSave, Action onCancel = null)
+        public static void ShowEditClient(Client client, Action<Client> onSave, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
         {
-            throw new NotImplementedException();
+            var control = new EditClientControl
+                          {
+                              Client = client,
+                              OnConfirm = onSave
+                          };
+
+            var title = client != null
+                            ? "Modifica clientul " + client.FullName
+                            : "Adauga client";
+
+            ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
         }
 
         public static void ShowEditPlan(Plan plan, Action<Plan> onSave, Action onCancel = null)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private static void ShowControlInWindow(Control control, string title = null, Action<CancelEventArgs> onClose = null, IWin32Window paretForm = null)

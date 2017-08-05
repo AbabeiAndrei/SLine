@@ -44,10 +44,10 @@ namespace SimpleRDS.Controls
                     predicate = predicate.And(p => p.Name.Contains(txtSearch.Text));
 
                 if (dtpFrom.Checked)
-                    predicate = predicate.And(p => p.ActiveFrom == null || p.ActiveFrom.Value >= dtpFrom.Value);
+                    predicate = predicate.And(p => p.ActiveFrom == null || p.ActiveFrom.Value >= dtpFrom.Value.Date);
 
                 if (dtpTo.Checked)
-                    predicate = predicate.And(p => p.ActiveUntil == null || p.ActiveUntil.Value <= dtpTo.Value);
+                    predicate = predicate.And(p => p.ActiveUntil == null || p.ActiveUntil.Value <= dtpTo.Value.Date);
 
                 var users = _planRepository.GetAllPlans(predicate).ToList();
 
