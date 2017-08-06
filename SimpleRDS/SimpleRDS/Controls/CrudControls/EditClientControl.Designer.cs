@@ -59,14 +59,16 @@
             this.btnCloseContract = new System.Windows.Forms.Button();
             this.pnlSecond = new System.Windows.Forms.Panel();
             this.gbInvoices = new System.Windows.Forms.GroupBox();
+            this.btnEditInvoice = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.lvInvoices = new System.Windows.Forms.ListView();
             this.chNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chInvDetails = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlActions = new System.Windows.Forms.Panel();
+            this.lblCreated = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
-            this.btnEditInvoice = new System.Windows.Forms.Button();
+            this.sfdPrint = new System.Windows.Forms.SaveFileDialog();
             this.pnlMain.SuspendLayout();
             this.gbSubscriptions.SuspendLayout();
             this.pnlSecond.SuspendLayout();
@@ -397,6 +399,17 @@
             this.gbInvoices.TabStop = false;
             this.gbInvoices.Text = "Facturi";
             // 
+            // btnEditInvoice
+            // 
+            this.btnEditInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditInvoice.Location = new System.Drawing.Point(7, 251);
+            this.btnEditInvoice.Name = "btnEditInvoice";
+            this.btnEditInvoice.Size = new System.Drawing.Size(100, 40);
+            this.btnEditInvoice.TabIndex = 15;
+            this.btnEditInvoice.Text = "Modifica";
+            this.btnEditInvoice.UseVisualStyleBackColor = true;
+            this.btnEditInvoice.Click += new System.EventHandler(this.btnEditInvoice_Click);
+            // 
             // btnPrint
             // 
             this.btnPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -444,12 +457,22 @@
             // 
             // pnlActions
             // 
+            this.pnlActions.Controls.Add(this.lblCreated);
             this.pnlActions.Controls.Add(this.btnOk);
             this.pnlActions.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlActions.Location = new System.Drawing.Point(0, 573);
             this.pnlActions.Name = "pnlActions";
             this.pnlActions.Size = new System.Drawing.Size(927, 46);
             this.pnlActions.TabIndex = 15;
+            // 
+            // lblCreated
+            // 
+            this.lblCreated.AutoSize = true;
+            this.lblCreated.Location = new System.Drawing.Point(3, 22);
+            this.lblCreated.Name = "lblCreated";
+            this.lblCreated.Size = new System.Drawing.Size(52, 21);
+            this.lblCreated.TabIndex = 15;
+            this.lblCreated.Text = "label1";
             // 
             // btnOk
             // 
@@ -462,16 +485,11 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // btnEditInvoice
+            // sfdPrint
             // 
-            this.btnEditInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditInvoice.Location = new System.Drawing.Point(7, 251);
-            this.btnEditInvoice.Name = "btnEditInvoice";
-            this.btnEditInvoice.Size = new System.Drawing.Size(100, 40);
-            this.btnEditInvoice.TabIndex = 15;
-            this.btnEditInvoice.Text = "Modifica";
-            this.btnEditInvoice.UseVisualStyleBackColor = true;
-            this.btnEditInvoice.Click += new System.EventHandler(this.btnEditInvoice_Click);
+            this.sfdPrint.DefaultExt = "*.pdf";
+            this.sfdPrint.Filter = "PDF Files|*.pdf";
+            this.sfdPrint.Title = "Exportare factura";
             // 
             // EditClientControl
             // 
@@ -491,6 +509,7 @@
             this.pnlSecond.PerformLayout();
             this.gbInvoices.ResumeLayout(false);
             this.pnlActions.ResumeLayout(false);
+            this.pnlActions.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -536,5 +555,7 @@
         private System.Windows.Forms.ColumnHeader chDate;
         private System.Windows.Forms.ColumnHeader chInvDetails;
         private System.Windows.Forms.Button btnEditInvoice;
+        private System.Windows.Forms.Label lblCreated;
+        private System.Windows.Forms.SaveFileDialog sfdPrint;
     }
 }

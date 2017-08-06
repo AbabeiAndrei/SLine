@@ -15,7 +15,7 @@ using SimpleRDS.Properties;
 
 namespace SimpleRDS.Utils
 {
-    public static class UiHelper
+    public static partial class UiHelper
     {
         public static void ShowMessage(string message, string title = null, MessageBoxIcon icon = MessageBoxIcon.None, IWin32Window parent = null)
         {
@@ -55,7 +55,7 @@ namespace SimpleRDS.Utils
             ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
         }
 
-        public static void ShowEditClient(Client client, Action<Client> onSave, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
+        public static void ShowEditClient(Client client, Action<Client, IEnumerable<Subscription>> onSave, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
         {
             var control = new EditClientControl
                           {
@@ -68,6 +68,28 @@ namespace SimpleRDS.Utils
                             : "Adauga client";
 
             ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
+        }
+
+        public static void ShowEditSubscription(Subscription subscription, Action<Subscription> onSave, string title, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
+        {
+            var control = new EditSubscriptionControl
+                          {
+                              Subscription = subscription,
+                              OnConfirm = onSave
+                          };
+
+            ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
+        }
+    
+        public static void ShowEditInvoice(Invoice invoice, Action<Invoice> onSave, Action<CancelEventArgs> onClose = null, IWin32Window paretForm = null)
+        {
+            var control = new EditInvoiceControl
+                          {
+                              Invoice = invoice,
+                              OnConfirm = onSave
+                          };
+
+            ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - Modificare factura {invoice.Serie}/{invoice.Numar}", onClose, paretForm);
         }
 
         public static void ShowEditPlan(Plan plan, Action<Plan> onSave, Action onCancel = null)
@@ -94,5 +116,6 @@ namespace SimpleRDS.Utils
 
             form.ShowDialog(paretForm);
         }
+
     }
 }

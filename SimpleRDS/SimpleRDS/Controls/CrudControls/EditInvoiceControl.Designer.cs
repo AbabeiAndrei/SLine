@@ -1,6 +1,6 @@
 ﻿namespace SimpleRDS.Controls.CrudControls
 {
-    partial class InvoiceEdit
+    partial class EditInvoiceControl
     {
         /// <summary> 
         /// Required designer variable.

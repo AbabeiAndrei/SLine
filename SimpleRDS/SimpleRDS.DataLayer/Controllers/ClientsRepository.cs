@@ -84,7 +84,7 @@ namespace SimpleRDS.DataLayer.Controllers
         {
             using (var connection = _context.Connection)
             {
-                connection.Insert(client);
+                client.Id = (int) connection.Insert(client, true);
             }
         }
 

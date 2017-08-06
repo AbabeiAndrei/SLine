@@ -19,15 +19,20 @@ namespace SimpleRDS.Controls.CrudControls
     {
         private SubscriptionRepository _subscriptionRepository;
         private PlanRepository _planRepository;
+        private AccountRepository _userRepository;
         private InvoiceRepository _invoiceRepository;
+
+        private readonly IList<Subscription> _localSubscriptions;
+        private int _localSubscriptionsId = -1;
 
         public Client Client { get; set; }
 
-        public Action<Client> OnConfirm { get; set; }
+        public Action<Client, IEnumerable<Subscription>> OnConfirm { get; set; }
 
         public EditClientControl()
         {
             InitializeComponent();
+            _localSubscriptions = new List<Subscription>();
         }
 
         private void EditClientControl_Load(object sender, EventArgs e)
@@ -35,10 +40,13 @@ namespace SimpleRDS.Controls.CrudControls
             _subscriptionRepository = Program.Resolver.Resolve<SubscriptionRepository>();
             _planRepository = Program.Resolver.Resolve<PlanRepository>();
             _invoiceRepository = Program.Resolver.Resolve<InvoiceRepository>();
+            _userRepository = Program.Resolver.Resolve<AccountRepository>();
 
             btnEditInvoice.Visible = AccountRepository.User.Access >= AccessLevel.Manager;
 
             BindEntityToGui();
+
+            lblCreated.Visible = Client != null;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -48,32 +56,168 @@ namespace SimpleRDS.Controls.CrudControls
 
             BindGuiToEntity();
 
-            OnConfirm?.Invoke(Client);
+            OnConfirm?.Invoke(Client, _localSubscriptions);
+
+            ParentForm?.Close();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            var client = Client != null
+                             ? $" client {Client.FullName}"
+                             : string.Empty;
 
+            UiHelper.ShowEditSubscription(null, sub =>
+                                          {
+                                              if (Client != null)
+                                              {
+                                                  sub.ClientId = Client.Id;
+                                                  _subscriptionRepository.Add(sub);
+                                              }
+                                              else
+                                              {
+                                                  sub.LocalId = _localSubscriptionsId--;
+                                                  _localSubscriptions.Add(sub);
+                                              }
+                                            FillSubscriptions();
+                                          },
+                                          $"Adaugare abonament{client}");
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            var subscription = GetSelectedSubscription();
 
+            if (subscription == null)
+                return;
+
+            var client = Client != null 
+                            ? $" client {Client.FullName}"
+                            : string.Empty;
+
+            UiHelper.ShowEditSubscription(subscription, sub =>
+                                         {
+                                             if(Client != null)
+                                                _subscriptionRepository.Update(sub);
+                                            FillSubscriptions();
+                                         }, 
+                                         $"Modificare abonament {subscription.Id}{client}");
         }
 
         private void btnCloseContract_Click(object sender, EventArgs e)
         {
+            var subscription = GetSelectedSubscription();
 
+            if (subscription == null)
+                return;
+
+            var result = UiHelper.ShowQuestion($"Esti sigur ca vrei sa stergi abonamentul {subscription.Id.DefaultIfZero(subscription.LocalId)}? " +
+                                               "Actiunea de stergere este ireversibila", parent: ParentForm);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            if (subscription.Id != 0)
+                _subscriptionRepository.Delete(subscription.Id);
+            else
+                _localSubscriptions.Remove(subscription);
+
+            FillSubscriptions();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            var invoice = GetSelectedInvoice();
 
+            if (invoice == null)
+                return;
+
+            sfdPrint.FileName = $"{invoice.Serie}_{invoice.Numar}";
+
+            if(sfdPrint.ShowDialog(ParentForm) != DialogResult.Yes)
+                return;
+
+            Printer.ToPdf(invoice, sfdPrint.FileName);
         }
 
         private void btnEditInvoice_Click(object sender, EventArgs e)
         {
+            var invoice = GetSelectedInvoice();
 
+            if (invoice == null)
+                return;
+
+            UiHelper.ShowEditInvoice(invoice, inv =>
+                                    {
+                                        _invoiceRepository.Update(inv);
+                                        FillInvoices();
+                                    });
+        }
+
+        private Subscription GetSelectedSubscription()
+        {
+            if (lvSubscriptions.SelectedIndices.Count <= 0)
+            {
+                UiHelper.ShowMessage("Selectati un abonament", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return null;
+            }
+
+            if (lvSubscriptions.SelectedIndices.Count != 1)
+            {
+                UiHelper.ShowMessage("Selectati un singur abonament", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return null;
+            }
+
+            var selSubscriptionId = lvSubscriptions.SelectedItems[0].Tag as int? ?? 0;
+
+            if (selSubscriptionId == 0)
+            {
+                UiHelper.ShowMessage("Selectie incorecta", icon: MessageBoxIcon.Error, parent: ParentForm);
+                return null;
+            }
+
+            var subscription = _subscriptionRepository.GetById(selSubscriptionId) ?? _localSubscriptions.FirstOrDefault(s => s.LocalId == selSubscriptionId);
+
+            if (subscription == null)
+            {
+                UiHelper.ShowMessage("Abonament incorect", icon: MessageBoxIcon.Error, parent: ParentForm);
+                return null;
+            }
+
+            return subscription;
+        }
+
+        private Invoice GetSelectedInvoice()
+        {
+            if (lvInvoices.SelectedIndices.Count <= 0)
+            {
+                UiHelper.ShowMessage("Selectati o factura", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return null;
+            }
+
+            if (lvInvoices.SelectedIndices.Count != 1)
+            {
+                UiHelper.ShowMessage("Selectati o singura factura", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return null;
+            }
+
+            var selInvoiceId = lvInvoices.SelectedItems[0].Tag as int? ?? 0;
+
+            if (selInvoiceId == 0)
+            {
+                UiHelper.ShowMessage("Selectie incorecta", icon: MessageBoxIcon.Error, parent: ParentForm);
+                return null;
+            }
+
+            var invoice = _invoiceRepository.GetById(selInvoiceId);
+
+            if (invoice == null)
+            {
+                UiHelper.ShowMessage("Factura incorecta", icon: MessageBoxIcon.Error, parent: ParentForm);
+                return null;
+            }
+
+            return invoice;
         }
 
         private void BindEntityToGui()
@@ -94,12 +238,20 @@ namespace SimpleRDS.Controls.CrudControls
 
             FillSubscriptions();
             FillInvoices();
+
+            var user = _userRepository.GetById(Client.CreatedBy);
+
+            lblCreated.Text = $"Creat de {user?.FullName ?? "necunoscut"} la data de {Client.CreatedAt:g}";
         }
 
         private void BindGuiToEntity()
         {
             if(Client == null)
-                Client = new Client();
+                Client = new Client
+                         {
+                             CreatedAt = DateTime.Now,
+                             CreatedBy = AccountRepository.User.Id
+                         };
 
             Client.FullName = txtFullName.Text;
             Client.Type = chkIsCompany.Checked ? ClientType.Company : ClientType.Person;
@@ -160,10 +312,11 @@ namespace SimpleRDS.Controls.CrudControls
                 lvSubscriptions.BeginUpdate();
                 lvSubscriptions.Items.Clear();
 
-                if(Client == null)
-                    return;
+                var subscriptions = (Client == null 
+                                          ? _localSubscriptions ?? Enumerable.Empty<Subscription>()  
+                                          : _subscriptionRepository.GetAllSubscriptions(s => s.ClientId == Client.Id)
+                                     ).ToList();
 
-                var subscriptions = _subscriptionRepository.GetAllSubscriptions(s => s.ClientId == Client.Id).ToList();
                 var planIds = subscriptions.Select(s => s.PlanId).Distinct().ToArray();
 
                 var plans = _planRepository.GetAllPlans(p => Sql.In(p.Id, planIds)).ToList();
@@ -199,11 +352,13 @@ namespace SimpleRDS.Controls.CrudControls
             }
         }
 
-        private static ListViewItem CreateSubscriptionItem(Subscription subscription, IEnumerable<Plan> plans)
+        private ListViewItem CreateSubscriptionItem(Subscription subscription, IEnumerable<Plan> plans)
         {
             return new ListViewItem(CreateSubscriptionName(subscription, plans))
             {
-                Tag = subscription.Id,
+                Tag = Client != null 
+                        ? subscription.Id
+                        : subscription.LocalId,
                 SubItems =
                 {
                     subscription.Address,

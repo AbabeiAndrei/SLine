@@ -29,5 +29,39 @@ namespace SimpleRDS.DataLayer.Controllers
                 return connection.Select<Subscription>(s => s.State != SubscriptionState.Deleted);
             }
         }
+
+        public Subscription GetById(int subscriptionId)
+        {
+            using (var connection = _context.Connection)
+            {
+                return connection.SingleById<Subscription>(subscriptionId);
+            }
+        }
+
+        public void Add(Subscription subscription)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Insert(subscription);
+            }
+        }
+
+        public void Update(Subscription subscription)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Update(subscription);
+            }
+        }
+
+        public void Delete(int subscriptionId)
+        {
+            using (var connection = _context.Connection)
+            {
+                var subscription = connection.SingleById<Subscription>(subscriptionId);
+                subscription.State = SubscriptionState.Deleted;
+                connection.Update(subscription);
+            }
+        }
     }
 }

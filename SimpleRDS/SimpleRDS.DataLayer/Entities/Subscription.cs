@@ -41,5 +41,8 @@ namespace SimpleRDS.DataLayer.Entities
         public DateTime? ExpireAt { get; set; }
 
         public SubscriptionState State { get; set; }
+
+        [Ignore]
+        public int LocalId { get; set; }
     }
 }

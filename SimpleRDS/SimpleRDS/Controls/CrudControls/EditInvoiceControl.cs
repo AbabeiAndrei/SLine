@@ -13,13 +13,13 @@ using SimpleRDS.Utils;
 
 namespace SimpleRDS.Controls.CrudControls
 {
-    public partial class InvoiceEdit : BaseUserControl
+    public partial class EditInvoiceControl : BaseUserControl
     {
         public Invoice Invoice { get; set; }
 
         public Action<Invoice> OnConfirm { get; set; }
 
-        public InvoiceEdit()
+        public EditInvoiceControl()
         {
             InitializeComponent();
 

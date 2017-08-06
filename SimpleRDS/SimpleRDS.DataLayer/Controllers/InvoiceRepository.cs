@@ -29,5 +29,21 @@ namespace SimpleRDS.DataLayer.Controllers
                 return connection.Select<Invoice>(c => c.RowState != RowState.Deleted);
             }
         }
+
+        public Invoice GetById(int invoiceId)
+        {
+            using (var connection = _context.Connection)
+            {
+                return connection.SingleById<Invoice>(invoiceId);
+            }
+        }
+
+        public void Update(Invoice invoice)
+        {
+            using (var connection = _context.Connection)
+            {
+                connection.Update(invoice);
+            }
+        }
     }
 }

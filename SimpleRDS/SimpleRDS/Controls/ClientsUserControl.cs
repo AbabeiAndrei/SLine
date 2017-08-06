@@ -29,7 +29,7 @@ namespace SimpleRDS.Controls
         private PlanRepository _planRepository;
         private InvoiceRepository _invoiceRepository;
 
-        private int _page;
+        private readonly int _page;
 
         public ClientsUserControl()
         {
@@ -49,9 +49,17 @@ namespace SimpleRDS.Controls
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            UiHelper.ShowEditClient(null, u =>
+            UiHelper.ShowEditClient(null, (client, subscriptions) =>
             {
-                _clientsRepository.Add(u);
+                _clientsRepository.Add(client);
+
+                if (subscriptions != null)
+                    foreach (var subscription in subscriptions)
+                    {
+                        subscription.ClientId = client.Id;
+                        _subscriptionRepository.Add(subscription);
+                    }
+
                 FillCombBox();
                 FillClients();
             });
@@ -64,9 +72,9 @@ namespace SimpleRDS.Controls
             if (client == null)
                 return;
 
-            UiHelper.ShowEditClient(client, u =>
+            UiHelper.ShowEditClient(client, (cl, subscriptions) =>
             {
-                _clientsRepository.Update(u);
+                _clientsRepository.Update(cl);
                 FillCombBox();
                 FillClients();
             });
@@ -104,12 +112,21 @@ namespace SimpleRDS.Controls
 
         private void FillCombBox()
         {
-            var clientCities = _clientsRepository.GetAllClientCities().ToList();
+            try
+            {
+                cbCity.BeginUpdate();
+                cbCity.Items.Clear();
+                var clientCities = _clientsRepository.GetAllClientCities().ToList();
 
-            clientCities.Insert(0, ALL);
+                clientCities.Insert(0, ALL);
 
-            cbCity.DataSource = clientCities;
-            cbCity.SelectedIndex = 0;
+                cbCity.Items.AddRange(clientCities.Cast<object>().ToArray());
+                cbCity.SelectedIndex = 0;
+            }
+            finally
+            {
+                cbCity.EndUpdate();
+            }
         }
 
         private void FillClients(int page = 0)
@@ -219,15 +236,15 @@ namespace SimpleRDS.Controls
                 return null;
             }
 
-            var user = _clientsRepository.GetById(selClientId);
+            var client = _clientsRepository.GetById(selClientId);
 
-            if (user == null)
+            if (client == null)
             {
                 UiHelper.ShowMessage("Client incorect", icon: MessageBoxIcon.Error, parent: ParentForm);
                 return null;
             }
 
-            return user;
+            return client;
         }
     }
 }
