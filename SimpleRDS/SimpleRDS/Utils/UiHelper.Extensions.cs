@@ -51,5 +51,15 @@ namespace SimpleRDS.Utils
 
             return selector(comboBox.SelectedItem);
         }
+
+        public static void SetDateTimePicker(this DateTimePicker dateTimePicker, DateTime? date)
+        {
+            if (!dateTimePicker.ShowCheckBox && date.HasValue)
+                dateTimePicker.Value = date.Value;
+
+            dateTimePicker.Checked = date.HasValue;
+            if (date.HasValue)
+                dateTimePicker.Value = date.Value;
+        }
     }
 }

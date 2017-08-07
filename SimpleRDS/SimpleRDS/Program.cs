@@ -9,8 +9,10 @@ using SimpleRDS.DataLayer.Base;
 using SimpleRDS.DataLayer.Business;
 using SimpleRDS.DataLayer.Controllers;
 using SimpleRDS.DataLayer.Entities;
+using SimpleRDS.DataLayer.Utils;
 using SimpleRDS.Forms;
 using SimpleRDS.Properties;
+using SimpleRDS.Utils;
 
 namespace SimpleRDS
 {
@@ -47,6 +49,8 @@ namespace SimpleRDS
             resolver.RegisterType<InvoiceRepository>();
             resolver.RegisterType<SubscriptionRepository>();
             resolver.RegisterType<PlanRepository>();
+            resolver.RegisterType<InvoiceNumberFactory>().As<IInvoiceNumberFactory>();
+            resolver.RegisterType<Printer>();
 
         }
 

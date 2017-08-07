@@ -29,6 +29,7 @@ namespace SimpleRDS.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblHello = new System.Windows.Forms.Label();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpClients = new System.Windows.Forms.TabPage();
@@ -39,6 +40,8 @@ namespace SimpleRDS.Forms
             this.ucPlans = new SimpleRDS.Controls.PlansUserControl();
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.ucSettings = new SimpleRDS.Controls.SettingsUserControl();
+            this.tmrInvoice = new System.Windows.Forms.Timer(this.components);
+            this.lblIssueInvoices = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tpClients.SuspendLayout();
             this.tpUsers.SuspendLayout();
@@ -97,7 +100,7 @@ namespace SimpleRDS.Forms
             this.tpUsers.Location = new System.Drawing.Point(4, 30);
             this.tpUsers.Name = "tpUsers";
             this.tpUsers.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUsers.Size = new System.Drawing.Size(650, 425);
+            this.tpUsers.Size = new System.Drawing.Size(1176, 708);
             this.tpUsers.TabIndex = 1;
             this.tpUsers.Text = "Utilizatori";
             this.tpUsers.UseVisualStyleBackColor = true;
@@ -109,7 +112,7 @@ namespace SimpleRDS.Forms
             this.ucAcounts.Location = new System.Drawing.Point(3, 3);
             this.ucAcounts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ucAcounts.Name = "ucAcounts";
-            this.ucAcounts.Size = new System.Drawing.Size(644, 419);
+            this.ucAcounts.Size = new System.Drawing.Size(1170, 702);
             this.ucAcounts.TabIndex = 0;
             // 
             // tpPlans
@@ -118,7 +121,7 @@ namespace SimpleRDS.Forms
             this.tpPlans.Location = new System.Drawing.Point(4, 30);
             this.tpPlans.Name = "tpPlans";
             this.tpPlans.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPlans.Size = new System.Drawing.Size(650, 425);
+            this.tpPlans.Size = new System.Drawing.Size(1176, 708);
             this.tpPlans.TabIndex = 3;
             this.tpPlans.Text = "Planuri";
             this.tpPlans.UseVisualStyleBackColor = true;
@@ -130,7 +133,7 @@ namespace SimpleRDS.Forms
             this.ucPlans.Location = new System.Drawing.Point(3, 3);
             this.ucPlans.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ucPlans.Name = "ucPlans";
-            this.ucPlans.Size = new System.Drawing.Size(644, 419);
+            this.ucPlans.Size = new System.Drawing.Size(1170, 702);
             this.ucPlans.TabIndex = 0;
             // 
             // tpSettings
@@ -139,7 +142,7 @@ namespace SimpleRDS.Forms
             this.tpSettings.Location = new System.Drawing.Point(4, 30);
             this.tpSettings.Name = "tpSettings";
             this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(650, 425);
+            this.tpSettings.Size = new System.Drawing.Size(1176, 708);
             this.tpSettings.TabIndex = 2;
             this.tpSettings.Text = "Setari";
             this.tpSettings.UseVisualStyleBackColor = true;
@@ -151,19 +154,38 @@ namespace SimpleRDS.Forms
             this.ucSettings.Location = new System.Drawing.Point(3, 3);
             this.ucSettings.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.ucSettings.Name = "ucSettings";
-            this.ucSettings.Size = new System.Drawing.Size(644, 419);
+            this.ucSettings.Size = new System.Drawing.Size(1170, 702);
             this.ucSettings.TabIndex = 0;
+            // 
+            // tmrInvoice
+            // 
+            this.tmrInvoice.Interval = 3600000;
+            this.tmrInvoice.Tick += new System.EventHandler(this.tmrInvoice_Tick);
+            // 
+            // lblIssueInvoices
+            // 
+            this.lblIssueInvoices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblIssueInvoices.AutoSize = true;
+            this.lblIssueInvoices.Location = new System.Drawing.Point(922, 0);
+            this.lblIssueInvoices.Name = "lblIssueInvoices";
+            this.lblIssueInvoices.Size = new System.Drawing.Size(262, 21);
+            this.lblIssueInvoices.TabIndex = 2;
+            this.lblIssueInvoices.Text = "Facturare servicii, va rugam asteptati";
+            this.lblIssueInvoices.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblIssueInvoices.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 766);
+            this.Controls.Add(this.lblIssueInvoices);
             this.Controls.Add(this.tcMain);
             this.Controls.Add(this.lblHello);
             this.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tcMain.ResumeLayout(false);
             this.tpClients.ResumeLayout(false);
@@ -171,6 +193,7 @@ namespace SimpleRDS.Forms
             this.tpPlans.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -186,5 +209,7 @@ namespace SimpleRDS.Forms
         private Controls.ClientsUserControl ucClients;
         private Controls.AccountUserControl ucAcounts;
         private Controls.PlansUserControl ucPlans;
+        private System.Windows.Forms.Timer tmrInvoice;
+        private System.Windows.Forms.Label lblIssueInvoices;
     }
 }

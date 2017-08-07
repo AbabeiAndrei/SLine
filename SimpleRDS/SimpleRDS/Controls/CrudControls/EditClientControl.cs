@@ -21,6 +21,7 @@ namespace SimpleRDS.Controls.CrudControls
         private PlanRepository _planRepository;
         private AccountRepository _userRepository;
         private InvoiceRepository _invoiceRepository;
+        private Printer _printer;
 
         private readonly IList<Subscription> _localSubscriptions;
         private int _localSubscriptionsId = -1;
@@ -41,6 +42,7 @@ namespace SimpleRDS.Controls.CrudControls
             _planRepository = Program.Resolver.Resolve<PlanRepository>();
             _invoiceRepository = Program.Resolver.Resolve<InvoiceRepository>();
             _userRepository = Program.Resolver.Resolve<AccountRepository>();
+            _printer = Program.Resolver.Resolve<Printer>();
 
             btnEditInvoice.Visible = AccountRepository.User.Access >= AccessLevel.Manager;
 
@@ -134,10 +136,12 @@ namespace SimpleRDS.Controls.CrudControls
 
             sfdPrint.FileName = $"{invoice.Serie}_{invoice.Numar}";
 
-            if(sfdPrint.ShowDialog(ParentForm) != DialogResult.Yes)
+            var result = sfdPrint.ShowDialog(ParentForm);
+
+            if (result != DialogResult.OK)
                 return;
 
-            Printer.ToPdf(invoice, sfdPrint.FileName);
+            _printer.ToPdf(invoice, sfdPrint.FileName);
         }
 
         private void btnEditInvoice_Click(object sender, EventArgs e)
@@ -271,14 +275,14 @@ namespace SimpleRDS.Controls.CrudControls
 
         private bool ValidateUi()
         {
-            if (string.IsNullOrEmpty(txtFullName.Text))
+            if (txtFullName.Text.IsInvalid(max: 255))
             {
                 UiHelper.ShowMessage("Numele nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtCnp.Text))
+            if (txtCnp.Text.IsInvalid(ValidateType.NumericOnly, 13, 13))
             {
-                UiHelper.ShowMessage("Cnp-ul nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                UiHelper.ShowMessage("Cnp-ul nu este completat, sau nu este completat corect", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
             if (!txtSerieNumar.MaskFull)
@@ -286,19 +290,29 @@ namespace SimpleRDS.Controls.CrudControls
                 UiHelper.ShowMessage("Seria/Numarul nu sunt completate", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtPhone.Text) && string.IsNullOrEmpty(txtMobile.Text))
+            if (txtPhone.Text.IsInvalid() && txtMobile.Text.IsInvalid())
             {
                 UiHelper.ShowMessage("Telefonul sau mobilul nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtAddress.Text))
+            if (!string.IsNullOrEmpty(txtPhone.Text) && txtPhone.Text.IsInvalid(ValidateType.Phone))
             {
-                UiHelper.ShowMessage("Adresa nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                UiHelper.ShowMessage("Numarul de telefon este completat gresit", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtCity.Text))
+            if (!string.IsNullOrEmpty(txtMobile.Text) && txtMobile.Text.IsInvalid(ValidateType.Phone))
             {
-                UiHelper.ShowMessage("Orasul nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                UiHelper.ShowMessage("Numarul de mobil este completat gresit", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return false;
+            }
+            if (txtAddress.Text.IsInvalid(max: 2000))
+            {
+                UiHelper.ShowMessage("Adresa nu este completata corect", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                return false;
+            }
+            if (txtCity.Text.IsInvalid(max: 128))
+            {
+                UiHelper.ShowMessage("Orasul nu este completat corect", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
 

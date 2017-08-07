@@ -99,14 +99,14 @@ namespace SimpleRDS.Controls.CrudControls
 
         private bool ValidateUi()
         {
-            if (string.IsNullOrEmpty(txtMail.Text))
+            if (txtMail.Text.IsInvalid(ValidateType.Email, max: 255))
             {
-                UiHelper.ShowMessage("Email-ul nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                UiHelper.ShowMessage("Email-ul nu este completat corect", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtFullName.Text))
+            if (txtFullName.Text.IsInvalid(max: 255))
             {
-                UiHelper.ShowMessage("Numele nu este completat", icon: MessageBoxIcon.Warning, parent: ParentForm);
+                UiHelper.ShowMessage("Numele nu este completat corect", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
             if (cbAccess.SelectedIndex < 0)
@@ -114,7 +114,7 @@ namespace SimpleRDS.Controls.CrudControls
                 UiHelper.ShowMessage("Accesul nu este selectat", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (User == null && string.IsNullOrEmpty(txtPassword.Text))
+            if (User == null && !txtPassword.Text.IsInvalid(max: 128))
             {
                 UiHelper.ShowMessage("Parola nu este completata", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;

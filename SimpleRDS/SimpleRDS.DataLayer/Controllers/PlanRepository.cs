@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ServiceStack.OrmLite;
 using SimpleRDS.DataLayer.Base;
@@ -62,6 +64,24 @@ namespace SimpleRDS.DataLayer.Controllers
                 user.State = PlanState.Closed;
                 connection.Update(user);
             }
+        }
+
+        public async Task<Plan> GetByIdAsync(int planId)
+        {
+            return await GetByIdAsync(planId, CancellationToken.None);
+        }
+
+        public async Task<Plan> GetByIdAsync(int planId, CancellationToken cancelationToken)
+        {
+            using (var connection = _context.Connection)
+            {
+                return await GetByIdAsync(planId, connection, cancelationToken);
+            }
+        }
+
+        public async Task<Plan> GetByIdAsync(int planId, IDbConnection connection, CancellationToken cancelationToken)
+        {
+            return await connection.SingleByIdAsync<Plan>(planId, cancelationToken);
         }
     }
 }

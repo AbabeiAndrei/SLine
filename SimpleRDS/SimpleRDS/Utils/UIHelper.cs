@@ -92,9 +92,19 @@ namespace SimpleRDS.Utils
             ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - Modificare factura {invoice.Serie}/{invoice.Numar}", onClose, paretForm);
         }
 
-        public static void ShowEditPlan(Plan plan, Action<Plan> onSave, Action onCancel = null)
+        public static void ShowEditPlan(Plan plan, Action<Plan> onSave, Action<CancelEventArgs> onCancel = null, IWin32Window paretForm = null)
         {
-            //throw new NotImplementedException();
+            var control = new EditPlanControl
+            {
+                Plan = plan,
+                OnConfirm = onSave
+            };
+
+            var title = plan != null
+                            ? "Modifica plan " + plan.Name
+                            : "Adauga plan";
+
+            ShowControlInWindow(control, $"{Settings.Default.ApplicationName} - {title}", onCancel, paretForm);
         }
 
         private static void ShowControlInWindow(Control control, string title = null, Action<CancelEventArgs> onClose = null, IWin32Window paretForm = null)
@@ -105,7 +115,8 @@ namespace SimpleRDS.Utils
                 Size = control.Size,
                 StartPosition = paretForm == null
                                     ? FormStartPosition.CenterScreen
-                                    : FormStartPosition.CenterParent
+                                    : FormStartPosition.CenterParent,
+                MaximizeBox = false
             };
 
             control.Dock = DockStyle.Fill;

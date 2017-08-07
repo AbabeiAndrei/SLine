@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ServiceStack.OrmLite;
+using ServiceStack.OrmLite.Dapper;
 using SimpleRDS.DataLayer.Base;
 using SimpleRDS.DataLayer.Entities;
 
@@ -25,9 +28,41 @@ namespace SimpleRDS.DataLayer.Controllers
             return setting?.Value;
         }
 
+        public async Task<string> GetValueAsync(string key, CancellationToken cancellationToken)
+        {
+            var setting = await GetSettingAsync(key, cancellationToken);
+
+            return setting?.Value;
+        }
+
+        public async Task<string> GetValueAsync(string key, IDbConnection connection, CancellationToken cancellationToken)
+        {
+            var setting = await GetSettingAsync(key, connection, cancellationToken);
+
+            return setting?.Value;
+        }
+
         public Setting GetSetting(string key)
         {
-            return _context.Settings.FirstOrDefault(s => s.Key == key);
+            using (var connection = _context.Connection)
+            {
+                return connection.Select<Setting>(s => s.Key == key).FirstOrDefault();
+            }
+        }
+
+        public async Task<Setting> GetSettingAsync(string key, CancellationToken cancellationToken)
+        {
+            using (var connection = _context.Connection)
+            {
+                return await GetSettingAsync(key, connection, cancellationToken);
+            }
+        }
+
+        public async Task<Setting> GetSettingAsync(string key, IDbConnection connection, CancellationToken cancellationToken)
+        {
+            var result = await connection.SelectAsync<Setting>(s => s.Key == key, cancellationToken);
+
+            return result.FirstOrDefault();
         }
 
         public void Save(string key, string value)

@@ -50,13 +50,13 @@ namespace SimpleRDS.Controls.CrudControls
 
         private bool ValidateUi()
         {
-            if (rbPaidWith.Checked && string.IsNullOrEmpty(txtPaidWith.Text))
+            if (rbPaidWith.Checked && txtPaidWith.Text.IsInvalid(max: 128))
             {
                 UiHelper.ShowMessage("Specificati seria si numarul documentului de plata ce va stinge factura", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
 
-            if (rbStorno.Checked && string.IsNullOrEmpty(txtStornoFor.Text))
+            if (rbStorno.Checked && txtStornoFor.Text.IsInvalid(max: 128))
             {
                 UiHelper.ShowMessage("Specificati seria si numarul facturii ce va fi stornata", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;

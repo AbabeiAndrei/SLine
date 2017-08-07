@@ -44,7 +44,7 @@ namespace SimpleRDS.DataLayer.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        [ForeignKey(typeof(User), OnDelete = "RESTRICT", OnUpdate = "RESTRICT")]
+        //[ForeignKey(typeof(User), OnDelete = "RESTRICT", OnUpdate = "RESTRICT")]
         public int CreatedBy { get; set; }
 
         public RowState RowState { get; set; }

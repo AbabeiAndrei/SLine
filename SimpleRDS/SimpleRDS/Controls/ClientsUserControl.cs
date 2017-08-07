@@ -156,7 +156,7 @@ namespace SimpleRDS.Controls
                 List<Invoice> invoices = new List<Invoice>();
                 if (clientIds.Length > 0)
                     invoices = _invoiceRepository.GetAllInvoices(i => Sql.In(i.ClientId, clientIds))
-                                                 .Where(i => !string.IsNullOrEmpty(i.PaidWith))
+                                                 .Where(i => string.IsNullOrEmpty(i.PaidWith))
                                                  .ToList();
 
                 lvClients.Items.AddRange(clients.Select(c => CreateListViewItem(c, subscriptions, plans, invoices)).ToArray());

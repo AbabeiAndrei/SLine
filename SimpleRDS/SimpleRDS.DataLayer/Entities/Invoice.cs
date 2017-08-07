@@ -24,8 +24,7 @@ namespace SimpleRDS.DataLayer.Entities
 
         [ForeignKey(typeof(Subscription), OnDelete = "RESTRICT", OnUpdate = "RESTRICT")]
         public int SubscriptionId { get; set; }
-
-        //only manager
+        
         public string StornoFor { get; set; }
 
         public string PaidWith { get; set; }

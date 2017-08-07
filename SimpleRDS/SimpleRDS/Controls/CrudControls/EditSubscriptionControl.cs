@@ -142,7 +142,7 @@ namespace SimpleRDS.Controls.CrudControls
                 UiHelper.ShowMessage("Selectati starea", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
             }
-            if (string.IsNullOrEmpty(txtAddress.Text))
+            if (txtAddress.Text.IsInvalid(max: 2000))
             {
                 UiHelper.ShowMessage("Introduceti adresa", icon: MessageBoxIcon.Warning, parent: ParentForm);
                 return false;
