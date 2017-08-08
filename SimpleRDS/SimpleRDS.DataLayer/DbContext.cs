@@ -47,7 +47,7 @@ namespace SimpleRDS.DataLayer
         {
             using (var connection = _dbContext.OpenDbConnection())
             {
-                if(connection.Select<User>().Any())
+                if(connection.Select<User>(u => u.RowState == RowState.Created).Any())
                     return;
 
                 var user = new User
